@@ -1,0 +1,159 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "message",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "body",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "author",
+                "type": "address"
+            }
+        ],
+        "name": "MessageAdded",
+        "type": "event",
+        "signature": "0x8f0a6aee96af394104f1cbde715858cdab311a3b41800fefe7527ee57d1ffe18"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "counter",
+                "type": "uint256"
+            }
+        ],
+        "name": "MessagesCounter",
+        "type": "event",
+        "signature": "0x6f7692dc040ac674b0db154cf80e38f9a59e3868f55d4b0937731d0c8074f331"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "messagesCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function",
+        "signature": "0x9b71653b",
+        "value": "",
+        "enumsInfo": {
+            "fields": {},
+            "methods": {}
+        }
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "messagesList",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "author",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "body",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function",
+        "signature": "0xae934887",
+        "value": "",
+        "enumsInfo": {
+            "fields": {},
+            "methods": {}
+        }
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "message",
+                "type": "string"
+            }
+        ],
+        "name": "addMessage",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x6a226a49"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getLastMsg",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function",
+        "signature": "0x35cd96e0",
+        "value": "",
+        "enumsInfo": {
+            "fields": {},
+            "methods": {}
+        }
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function",
+        "signature": "0xa87d942c",
+        "value": "",
+        "enumsInfo": {
+            "fields": {},
+            "methods": {}
+        }
+    }
+]
