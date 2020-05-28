@@ -14,3 +14,12 @@ Thank to the Azure Gitcoin Bounty https://gitcoin.co/issue/Azure-Samples/bc-comm
 # Demo
 
 https://azure-quorum-tessera.x5engine.com
+
+
+Video 
+
+https://youtu.be/uP1RU_iNdms
+
+Tweet: 
+
+https://twitter.com/ucefkh/status/1266026739915988992

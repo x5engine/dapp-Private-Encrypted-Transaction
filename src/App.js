@@ -135,9 +135,6 @@ function App() {
     .then(nonce => {
       const timeDate = new Date().toUTCString();
       const encoded = myContract.methods.addMessage("Testing Private Transaction " + Math.random() + " time " + timeDate).encodeABI()
-      // web3.eth.personal.importRawKey("502ad50a5100783286b426746c9b348d842574a718f8645f97d713dbc063b456", "")
-      // web3.eth.personal.unlockAccount("0xCCDf22cedAbE0a2F50ab84f52969365839088eC2", "", 155600)
-        // .then(console.log('Account unlocked!'));
       const rawTransaction = {
         nonce: `0x${nonce.toString(16)}`,
         from: "0x3f833ebc25100a391C61a2D40A3f16a08c98FB0c",
@@ -151,9 +148,10 @@ function App() {
         isPrivate: true
       };
       
-      // const rtmViaAPI = quorumjs.RawTransactionManager(web3, {
-      //   privateUrl: "https://x5engine.blockchain.azure.com:3200"//can't find the right endpoint sadly
-      // })
+      const rtmViaAPI = quorumjs.RawTransactionManager(web3, {
+        privateUrl: "https://x5engine.blockchain.azure.com:3200"//can't find the right endpoint sadly
+      })
+      
       var tx = new Tx(rawTransaction, { chain: 'mainnet', hardfork: 'homestead' });
       tx.sign(privateKey);
 
