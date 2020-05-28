@@ -150,14 +150,25 @@ function App() {
         // privateFrom: "nOzQJIDGKR3Qa7yBwfp4TDnHawdxJU61RtXzuy1O4lg=",
         isPrivate: true
       };
-
+      
+      // const rtmViaAPI = quorumjs.RawTransactionManager(web3, {
+      //   privateUrl: "https://x5engine.blockchain.azure.com:3200"//can't find the right endpoint sadly
+      // })
       var tx = new Tx(rawTransaction, { chain: 'mainnet', hardfork: 'homestead' });
       tx.sign(privateKey);
 
       var serializedTx = tx.serialize();
       const rawTx = '0x' + serializedTx.toString('hex');
+
+      //this is how it should be sent
+      // rtmViaAPI.sendRawTransaction(rawTransaction)
+      //   .then(function (o, e) {
+      //     console.log("Sending private txn using newer API");
+      //     console.log(o, e);
+      //   });
+
       //this doesnt work for some reason because I don't have the privateUrl for Tessera!
-      // web3.quorum.eth.sendRawPrivateTransaction(rawTx, { privateFor: ["llGj6iwxark5ULgJ7vh1x6mmrI8KeDbFpd28xCg1YFk="]})
+      // web3.quorum.eth.sendRawPrivateTransaction(rawTx, { privateFor: ["llGj6iwxark5ULgJ7vh1x6mmrI8KeDbFpd28xCg1YFk="]})// this is the right way but can't have access to the privateURL on ABS
 
       // web3.eth.sendSignedTransaction(rawTx)
       web3.eth.sendTransaction(rawTransaction)
@@ -172,6 +183,8 @@ function App() {
           console.log('receipt', receipt)
         })
         .on('error', console.error)
+
+
     })
   }
 
