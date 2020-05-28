@@ -16,6 +16,9 @@ const IpfsAPI = require('ipfs-api'); //Needs a 'require' instead of import
 var provider = new Web3.providers.WebsocketProvider("wss://x5engine.blockchain.azure.com:3300/E-FlUTqcGM65Si6SaBQwe6sg");
 var web3 = new Web3(provider);
 
+var provider2 = new Web3.providers.WebsocketProvider("wss://node2-x5engine.blockchain.azure.com:3300/xYxMEh8VR-8Aq8I2zQQskMR6");
+const web3_node2 = new Web3(provider);
+
 quorumjs.extend(web3);
 // const tessera = quorumjs.encalves.Tessera(web3, "http://localhost:9081");
 
@@ -23,6 +26,9 @@ var myContract = new web3.eth.Contract(abi, '0xc5bAd721fb0CDE3FBa9B952BFA8B0B703
 const account =  '0x3f833ebc25100a391C61a2D40A3f16a08c98FB0c';
 const pk = '502ad50a5100783286b426746c9b348d842574a718f8645f97d713dbc063b456';
 web3.eth.accounts.privateKeyToAccount("0x"+pk);
+web3.eth.accounts.wallet.add("0x502ad50a5100783286b426746c9b348d842574a718f8645f97d713dbc063b456")
+web3.eth.defaultAccount = "0x3f833ebc25100a391C61a2D40A3f16a08c98FB0c";
+
 var privateKey = new Buffer(pk, 'hex')
 
 //old public contract
@@ -81,7 +87,7 @@ function App() {
         console.log("data",event); // we log it for debugging purposes only
         //we then get the tranasction receipt to get all other info needed
         const receipt = await web3.eth.getTransactionReceipt(event.transactionHash);
-        const tx = await web3.eth.getTransaction(event.transactionHash);
+        const tx = await web3_node2.eth.getTransaction(event.transactionHash);
         console.log("tx",tx);
         // Send On-Chain data to Off-Chain
         if (event.event == "MessageAdded")// we only add to ipfs when we get the MessageAdded Event
@@ -129,16 +135,20 @@ function App() {
     .then(nonce => {
       const timeDate = new Date().toUTCString();
       const encoded = myContract.methods.addMessage("Testing Private Transaction " + Math.random() + " time " + timeDate).encodeABI()
-
+      // web3.eth.personal.importRawKey("502ad50a5100783286b426746c9b348d842574a718f8645f97d713dbc063b456", "")
+      // web3.eth.personal.unlockAccount("0xCCDf22cedAbE0a2F50ab84f52969365839088eC2", "", 155600)
+        // .then(console.log('Account unlocked!'));
       const rawTransaction = {
         nonce: `0x${nonce.toString(16)}`,
-        from: account,
+        from: "0x3f833ebc25100a391C61a2D40A3f16a08c98FB0c",
         to: "0xc5bAd721fb0CDE3FBa9B952BFA8B0B703Cc822C6",
         value: `0x${(0).toString(16)}`,
         gasLimit: `0x${(4300000).toString(16)}`,
         gasPrice: `0x${(0).toString(16)}`,
         data: encoded,
-        privateFor: ["llGj6iwxark5ULgJ7vh1x6mmrI8KeDbFpd28xCg1YFk="]
+        privateFor: ["llGj6iwxark5ULgJ7vh1x6mmrI8KeDbFpd28xCg1YFk="],
+        // privateFrom: "nOzQJIDGKR3Qa7yBwfp4TDnHawdxJU61RtXzuy1O4lg=",
+        isPrivate: true
       };
 
       var tx = new Tx(rawTransaction, { chain: 'mainnet', hardfork: 'homestead' });
@@ -146,10 +156,17 @@ function App() {
 
       var serializedTx = tx.serialize();
       const rawTx = '0x' + serializedTx.toString('hex');
+      //this doesnt work for some reason because I don't have the privateUrl for Tessera!
       // web3.quorum.eth.sendRawPrivateTransaction(rawTx, { privateFor: ["llGj6iwxark5ULgJ7vh1x6mmrI8KeDbFpd28xCg1YFk="]})
-      web3.eth.sendSignedTransaction(rawTx)
-        .on('transactionHash', (hash) => {
+
+      // web3.eth.sendSignedTransaction(rawTx)
+      web3.eth.sendTransaction(rawTransaction)
+        .on('transactionHash', async (hash) => {
           console.log('txHash:', hash)
+          const tx = await web3.eth.getTransaction(hash);
+          console.log("tx private node", tx);
+          const txx = await web3_node2.eth.getTransaction(hash);
+          console.log("tx node2", txx, tx.input == txx.input);
         })
         .on('receipt', (receipt) => {
           console.log('receipt', receipt)
